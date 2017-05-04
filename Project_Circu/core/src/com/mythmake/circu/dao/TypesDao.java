@@ -10,7 +10,7 @@ public interface TypesDao {
 	
 	Types nameFetchType(String name);
 	
-	Types idSFetchType(int id);
+	Types idFetchType(int id);
 	
 	void changeName(Types type, String name);
 	
