@@ -64,8 +64,9 @@ public class WorldEngine {
 	    sprites.setProjectionMatrix(cam.combined);
 	    sprites.begin();
 	    sprites.draw(playerCharImg, playerChar.x, playerChar.y);
-	    for(Rectangle bullRec : bulletNature.getBulletTrajectories().keySet()){
-	    	sprites.draw(playerBulletImg, bullRec.x, bullRec.y);
+	    for(Integer key : bulletNature.getBulletTrajectories().keySet()){
+	    	sprites.draw(playerBulletImg, bulletNature.getBulletTrajectories().get(key).get(0).x,
+	    			bulletNature.getBulletTrajectories().get(key).get(0).y);
 	    }
 	    sprites.end();
 	    
@@ -75,7 +76,7 @@ public class WorldEngine {
 	    if(Gdx.input.isKeyPressed(Input.Keys.S)) playerChar.y -= 200 * Gdx.graphics.getDeltaTime();
 	    
 	    if(playerRecharge == true){
-	    	if(TimeUtils.nanoTime() - playerRechargeTimer > 800000000){
+	    	if(TimeUtils.nanoTime() - playerRechargeTimer > 500000000){
 	    		playerRecharge = false;
 	    	}
 	    }
