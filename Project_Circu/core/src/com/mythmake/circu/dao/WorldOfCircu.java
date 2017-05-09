@@ -223,8 +223,8 @@ public class WorldOfCircu implements BulletsDao, PlayersDao, ShapesDao, TypesDao
 
 	@Override
 	public Bullets idFetchBullet(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Bullets bullet = bullets.get(id-1);
+		return bullet;
 	}
 
 	@Override
