@@ -73,16 +73,6 @@ public class BulletNature {
 			if(instance.getValue().get(0).x > (800-width/2)) iterate.remove();
 			if(instance.getValue().get(0).y < (0-height/2)) iterate.remove(); 
 		}
-		/*for(Integer key : bulletTrajectories.keySet()){
-			xMultiplier = Math.round(bulletTrajectories.get(key).get(1).x);
-			yMultiplier = Math.round(bulletTrajectories.get(key).get(1).y);
-			bulletTrajectories.get(key).get(0).x += 200*xMultiplier*Gdx.graphics.getDeltaTime();
-			bulletTrajectories.get(key).get(0).y += 200*yMultiplier*Gdx.graphics.getDeltaTime();
-			if(bulletTrajectories.get(key).get(0).x < 0) bulletTrajectories.remove(key);
-			if(bulletTrajectories.get(key).get(0).y > 480) bulletTrajectories.remove(key);
-			//adding 30 on as a generic number it won't be greater than
-			if(bulletTrajectories.get(key).get(0).x > 830) bulletTrajectories.remove(key); 
-			if(bulletTrajectories.get(key).get(0).y < (0-30)) bulletTrajectories.remove(key); 
-		}*/
+		
 	}
 }
