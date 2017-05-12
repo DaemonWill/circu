@@ -59,8 +59,8 @@ public class BulletNature {
 			yMultiplier = (instance.getValue().get(1).y);
 			Array<Rectangle> newProperties = new Array<Rectangle>();
 			Rectangle newRec = new Rectangle();
-			xCoord = instance.getValue().get(0).x+240*xMultiplier*Gdx.graphics.getDeltaTime();
-			yCoord = instance.getValue().get(0).y+240*yMultiplier*Gdx.graphics.getDeltaTime();
+			xCoord = instance.getValue().get(0).x+300*xMultiplier*Gdx.graphics.getDeltaTime();
+			yCoord = instance.getValue().get(0).y+300*yMultiplier*Gdx.graphics.getDeltaTime();
 			height = instance.getValue().get(0).height;
 			width = instance.getValue().get(0).width;
 			
@@ -68,10 +68,12 @@ public class BulletNature {
 			newProperties.add(instance.getValue().get(1));
 			instance.setValue(newProperties);
 		
-			if(instance.getValue().get(0).x < 0) iterate.remove();
-			if(instance.getValue().get(0).y > 480) iterate.remove();
-			if(instance.getValue().get(0).x > (800-width/2)) iterate.remove();
-			if(instance.getValue().get(0).y < (0-height/2)) iterate.remove(); 
+			if(instance.getValue().get(0).x < 0 || 
+					instance.getValue().get(0).y > 480 || 
+					instance.getValue().get(0).x > (800-width/2) || 
+					instance.getValue().get(0).y < (0-height/2)){
+				iterate.remove(); 
+			}
 		}
 		
 	}

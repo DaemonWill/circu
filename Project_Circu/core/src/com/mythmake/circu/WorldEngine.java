@@ -76,7 +76,7 @@ public class WorldEngine {
 	    if(Gdx.input.isKeyPressed(Input.Keys.S)) playerChar.y -= 200 * Gdx.graphics.getDeltaTime();
 	    
 	    if(playerRecharge == true){
-	    	if(TimeUtils.nanoTime() - playerRechargeTimer > 500000000){
+	    	if(TimeUtils.nanoTime() - playerRechargeTimer > 400000000){
 	    		playerRecharge = false;
 	    	}
 	    }
