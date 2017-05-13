@@ -22,26 +22,38 @@ public class WorldEngine {
 	
 	Texture playerCharImg;
 	Texture playerBulletImg;
+	Texture hexaminionImg;
 	Rectangle playerChar;
+	Rectangle hexaminion;
 	OrthographicCamera cam;
 	SpriteBatch sprites;
 	WorldOfCircu world;
 	Shapes circu;
+	Shapes basicHex;
 	BulletNature bulletNature;
+	EnemyNature enemyNature;
 	
 	long playerRechargeTimer;
 	boolean playerRecharge = false;
+	long hexaminionTimer;
+	int hexTypeId;
 	
 	public void genesis(){
 		
 		world = new WorldOfCircu();
 		bulletNature = new BulletNature();
+		enemyNature = new EnemyNature();
 		world.aCircuIsBorn();
+		world.hexaminionIsBorn();
 		circu = world.idFetchShape(1);
 		int circuTypeId = circu.getTypeId();
 		int circuBulletId = circu.getBulletId();
+		basicHex = world.idFetchShape(2);
+		hexTypeId = basicHex.getTypeId();
+		
 		playerBulletImg = new Texture(Gdx.files.internal(world.idFetchBullet(circuBulletId).getImage()));
 		playerCharImg = new Texture(Gdx.files.internal(world.idFetchType(circuTypeId).getImage()));
+		hexaminionImg = new Texture(Gdx.files.internal(world.idFetchType(hexTypeId).getImage()));
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, 800, 480);
 		sprites = new SpriteBatch();
@@ -53,10 +65,16 @@ public class WorldEngine {
 		playerChar.y = (480/2 - playerChar.height/2);
 		
 		playerRechargeTimer = TimeUtils.nanoTime();
+		hexaminionTimer = TimeUtils.nanoTime();
+		enemyNature.spawnHexaminion(world.idFetchType(hexTypeId), playerChar);
 	}
 	
 	public void revolution(){
-		
+		//every 2 seconds make an instance of hexaminion an appropriate distance from player
+		if(TimeUtils.nanoTime() - hexaminionTimer >= 2000000000){
+			enemyNature.spawnHexaminion(world.idFetchType(hexTypeId), playerChar);
+			hexaminionTimer = TimeUtils.nanoTime();
+		}
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    
@@ -64,6 +82,9 @@ public class WorldEngine {
 	    sprites.setProjectionMatrix(cam.combined);
 	    sprites.begin();
 	    sprites.draw(playerCharImg, playerChar.x, playerChar.y);
+	    for(Rectangle enemy : enemyNature.getEnemies().keySet()){
+	    	sprites.draw(hexaminionImg, enemy.x, enemy.y);
+	    }
 	    for(Integer key : bulletNature.getBulletTrajectories().keySet()){
 	    	sprites.draw(playerBulletImg, bulletNature.getBulletTrajectories().get(key).get(0).x,
 	    			bulletNature.getBulletTrajectories().get(key).get(0).y);

@@ -16,15 +16,25 @@ public class WorldOfCircu implements BulletsDao, PlayersDao, ShapesDao, TypesDao
 
 	//definitely a temporary method, this process can be optimized
 	public void aCircuIsBorn(){
-		//instantiate and (sort of) persist basic bullet
+		//instantiate and (sort of) persist shape type
 		create("circu","redchar.png",60,60,10,10,10,10); 
-		//same for type
+		//same for basic bullet properties
 		create("playerBulletBasic","charbullet.png",2,2,8,15,15);
 		//same for shape - a shape has type and bullets (id,id) 
 		create(1,1);
 		//after each of the above, a new object should be added in their respective list that belong
 		//to the circle game entity
 	}
+	//temporary method, to set the properties of a basic enemy type
+	public void hexaminionIsBorn(){
+		//instantiate and (sort of) persist shape type
+		create("hexaminion","hexaminion.png",70,70,5,0,1,7); 
+		//same for shape - basic enemy shape just has type, no bullets 
+		create(2);
+		//hexaminion shape and type should now be persisted as game runs, later should 
+		//just make a simple data base with these attributes already stored.
+	}
+	
 	
 	@Override
 	public List<Types> getTypes() {
@@ -128,6 +138,22 @@ public class WorldOfCircu implements BulletsDao, PlayersDao, ShapesDao, TypesDao
 	@Override
 	public void update(Shapes shape) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void create(int type) {
+		// create basic shape method (no bullets)
+		Shapes shape = new Shapes(type);
+		if(shapes.size()==0){
+			shape.setShapeId(1);
+			shapes.add(shape);
+		}
+		else{
+			shape.setShapeId(shapes.size()+1);
+			shapes.add(shape);
+		}
+		//update(shape);
 		
 	}
 

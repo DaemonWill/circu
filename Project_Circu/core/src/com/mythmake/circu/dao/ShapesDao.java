@@ -16,6 +16,8 @@ public interface ShapesDao {
 	
 	void update(Shapes shape);
 	
+	void create(int type);
+	
 	void create(int type, int bullet);
 	
 	void destroy(Shapes shape);
