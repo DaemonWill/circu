@@ -68,7 +68,7 @@ public class EnemyNature {
 	}
 	
 	public void seekAndDestroy(Rectangle playerRec){
-		System.out.println("enemies maintained = "+enemies.size());
+		//System.out.println("enemies maintained = "+enemies.size());
 		iterate = enemies.entrySet().iterator();
 		while (iterate.hasNext()){
 			Vector2 playerCoord = new Vector2();
