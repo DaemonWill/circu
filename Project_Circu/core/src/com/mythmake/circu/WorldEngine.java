@@ -82,8 +82,9 @@ public class WorldEngine {
 	    sprites.setProjectionMatrix(cam.combined);
 	    sprites.begin();
 	    sprites.draw(playerCharImg, playerChar.x, playerChar.y);
-	    for(Rectangle enemy : enemyNature.getEnemies().keySet()){
-	    	sprites.draw(hexaminionImg, enemy.x, enemy.y);
+	    for(Integer enemy : enemyNature.getEnemies().keySet()){
+	    	sprites.draw(hexaminionImg, enemyNature.getEnemies().get(enemy).get(0).x,
+	    			enemyNature.getEnemies().get(enemy).get(0).y);
 	    }
 	    for(Integer key : bulletNature.getBulletTrajectories().keySet()){
 	    	sprites.draw(playerBulletImg, bulletNature.getBulletTrajectories().get(key).get(0).x,
@@ -112,6 +113,7 @@ public class WorldEngine {
 	     }
 	    
 	    bulletNature.openFire();
+	    enemyNature.seekAndDestroy(playerChar);
 	    
 	    if(playerChar.x < 0) playerChar.x = 0;
 	    if(playerChar.x > 800 - playerChar.width) playerChar.x = 800 - playerChar.width;
