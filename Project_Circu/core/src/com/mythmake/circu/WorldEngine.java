@@ -32,6 +32,7 @@ public class WorldEngine {
 	Shapes basicHex;
 	BulletNature bulletNature;
 	EnemyNature enemyNature;
+	CollisionMechanics collisionMech;
 	
 	long playerRechargeTimer;
 	boolean playerRecharge = false;
@@ -43,6 +44,7 @@ public class WorldEngine {
 		world = new WorldOfCircu();
 		bulletNature = new BulletNature();
 		enemyNature = new EnemyNature();
+		collisionMech = new CollisionMechanics();
 		world.aCircuIsBorn();
 		world.hexaminionIsBorn();
 		circu = world.idFetchShape(1);
@@ -89,6 +91,14 @@ public class WorldEngine {
 	    for(Integer key : bulletNature.getBulletTrajectories().keySet()){
 	    	sprites.draw(playerBulletImg, bulletNature.getBulletTrajectories().get(key).get(0).x,
 	    			bulletNature.getBulletTrajectories().get(key).get(0).y);
+	    }
+	    
+	    //union sort would be useful here - determining collisions
+	    for(Integer enemy : enemyNature.getEnemies().keySet()){
+	    	for(Integer bullet : bulletNature.getBulletTrajectories().keySet()){
+	    		collisionMech.hasInteraction(bulletNature.getBulletTrajectories().get(bullet), 
+	    				enemyNature.getEnemies().get(enemy));
+	    	}
 	    }
 	    sprites.end();
 	    
