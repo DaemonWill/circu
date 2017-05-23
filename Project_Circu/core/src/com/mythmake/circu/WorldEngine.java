@@ -26,6 +26,7 @@ public class WorldEngine {
 	Texture hexaminionImg;
 	Rectangle playerChar;
 	Rectangle hexaminion;
+	Rectangle stats;
 	OrthographicCamera cam;
 	SpriteBatch sprites;
 	WorldOfCircu world;
@@ -34,6 +35,7 @@ public class WorldEngine {
 	BulletNature bulletNature;
 	EnemyNature enemyNature;
 	CollisionMechanics collisionMech;
+	Array<Rectangle> characterCondition = new Array<Rectangle>();
 	
 	long playerRechargeTimer;
 	boolean playerRecharge = false;
@@ -70,8 +72,7 @@ public class WorldEngine {
 		playerRechargeTimer = TimeUtils.nanoTime();
 		hexaminionTimer = TimeUtils.nanoTime();
 		enemyNature.spawnHexaminion(world.idFetchType(hexTypeId), playerChar);
-		Array<Rectangle> characterCondition = new Array<Rectangle>();
-		Rectangle stats = new Rectangle();
+		stats = new Rectangle();
 		stats.set(10,10,10,10); //health, bulk, power, speed
 		characterCondition.add(playerChar);
 		characterCondition.add(stats);
@@ -108,6 +109,9 @@ public class WorldEngine {
 	    					enemyNature.getEnemies().get(enemy).get(1));
 	    		}
 	    	}
+	    	if(collisionMech.hasInteraction(characterCondition, enemyNature.getEnemies().get(enemy))){
+	    		collisionMech.damage(characterCondition.get(1), enemyNature.getEnemies().get(enemy).get(1));
+	    	}
 	    }
 	    sprites.end();
 	    
@@ -140,6 +144,10 @@ public class WorldEngine {
 	    if(playerChar.x > 800 - playerChar.width) playerChar.x = 800 - playerChar.width;
 	    if(playerChar.y < 0) playerChar.y = 0;
 	    if(playerChar.y > 480 - playerChar.height) playerChar.y = 480 - playerChar.height;
+	    if(characterCondition.get(1).x <= 0){
+	    	playerCharImg.dispose();
+	    	Gdx.app.exit();
+	    }
 	}
 	
 	public void end(){
