@@ -28,7 +28,7 @@ public class WorldOfCircu implements BulletsDao, PlayersDao, ShapesDao, TypesDao
 	//temporary method, to set the properties of a basic enemy type
 	public void hexaminionIsBorn(){
 		//instantiate and (sort of) persist shape type
-		create("hexaminion","hexaminion.png",70,70,5,0,1,7); 
+		create("hexaminion","hexaminion.png",70,70,4,0,1,7); 
 		//same for shape - basic enemy shape just has type, no bullets 
 		create(2);
 		//hexaminion shape and type should now be persisted as game runs, later should 

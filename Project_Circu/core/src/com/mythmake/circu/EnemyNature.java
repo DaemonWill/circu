@@ -109,6 +109,7 @@ public class EnemyNature {
 			health = (instance.getValue().get(1).x);
 			if(health <= 0){
 				iterate.remove(); 
+				System.out.println("minion destroyed");
 			}
 		}
 		

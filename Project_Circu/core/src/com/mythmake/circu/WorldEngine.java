@@ -84,6 +84,10 @@ public class WorldEngine {
 			enemyNature.spawnHexaminion(world.idFetchType(hexTypeId), playerChar);
 			hexaminionTimer = TimeUtils.nanoTime();
 		}
+		
+		bulletNature.update();
+		enemyNature.update();
+		
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    
@@ -91,6 +95,7 @@ public class WorldEngine {
 	    sprites.setProjectionMatrix(cam.combined);
 	    sprites.begin();
 	    sprites.draw(playerCharImg, playerChar.x, playerChar.y);
+	    
 	    for(Integer enemy : enemyNature.getEnemies().keySet()){
 	    	sprites.draw(hexaminionImg, enemyNature.getEnemies().get(enemy).get(0).x,
 	    			enemyNature.getEnemies().get(enemy).get(0).y);
@@ -111,6 +116,7 @@ public class WorldEngine {
 	    	}
 	    	if(collisionMech.hasInteraction(characterCondition, enemyNature.getEnemies().get(enemy))){
 	    		collisionMech.damage(characterCondition.get(1), enemyNature.getEnemies().get(enemy).get(1));
+	    		System.out.println("player collided!");
 	    	}
 	    }
 	    sprites.end();
@@ -137,8 +143,6 @@ public class WorldEngine {
 	    
 	    bulletNature.openFire();
 	    enemyNature.seekAndDestroy(playerChar);
-	    bulletNature.update();
-	    enemyNature.update();
 	    
 	    if(playerChar.x < 0) playerChar.x = 0;
 	    if(playerChar.x > 800 - playerChar.width) playerChar.x = 800 - playerChar.width;
@@ -148,6 +152,7 @@ public class WorldEngine {
 	    	playerCharImg.dispose();
 	    	Gdx.app.exit();
 	    }
+	   // System.out.println("player health = "+ characterCondition.get(1).x);
 	}
 	
 	public void end(){

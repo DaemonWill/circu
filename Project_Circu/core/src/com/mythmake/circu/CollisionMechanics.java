@@ -12,7 +12,7 @@ public class CollisionMechanics {
 	float secondYRadius;
 	Vector2 firstCenter = new Vector2();
 	Vector2 secondCenter = new Vector2();
-	boolean collision = false;
+	boolean collision;
 	double dam;
 	
 	public boolean hasInteraction(Array<Rectangle> friendly, Array<Rectangle> hostile){
@@ -24,8 +24,9 @@ public class CollisionMechanics {
 		if((Math.abs(firstCenter.x - secondCenter.x) <= (firstXRadius + secondXRadius)) ||
 				(Math.abs(firstCenter.y - secondCenter.y) <= (firstYRadius + secondYRadius))	){
 			collision = true;
-			//System.out.println("enemy bullet collision occured!");
-		} else{
+			System.out.println("enemy collision occured!");
+		}
+		else{
 			collision = false;
 		}
 		return collision;
