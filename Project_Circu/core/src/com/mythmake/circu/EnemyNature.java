@@ -24,6 +24,7 @@ public class EnemyNature {
 	private Map.Entry<Integer,Array<Rectangle>> instance;
 	float height;
 	float width;
+	double health;
 	
 	public void spawnHexaminion(Types type, Rectangle playerRec){
 		//System.out.println("making hexaminion "+(enemies.size()+1));
@@ -96,6 +97,19 @@ public class EnemyNature {
 			newProperties.add(newRec.set(newX, newY, width, height));
 			newProperties.add(instance.getValue().get(1));
 			instance.setValue(newProperties);
+		}
+		
+	}
+	
+	public void update(){
+		
+		iterate = enemies.entrySet().iterator();
+		while (iterate.hasNext()){
+			instance = iterate.next();
+			health = (instance.getValue().get(1).x);
+			if(health <= 0){
+				iterate.remove(); 
+			}
 		}
 		
 	}

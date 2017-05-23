@@ -29,11 +29,14 @@ public class BulletNature {
 	float yCoord;
 	float height;
 	float width;
+	double health;
 	
 	public void spawnBullet(Bullets bullet,Rectangle srcRec, Vector3 inputCoord){
 		Rectangle bulletRec = new Rectangle();
 		Vector2 srcCoord = new Vector2();
 		Rectangle speedVector = new Rectangle();
+		Rectangle stats = new Rectangle();
+		stats.set(bullet.getHealth(),bullet.getBulk(),0,0);
 		Array<Rectangle> vectors = new Array<Rectangle>();
 		bulletRec.setCenter(srcRec.getCenter(srcCoord));
 		bulletRec.height = bullet.getHeight();
@@ -46,6 +49,8 @@ public class BulletNature {
 		speedVector.set((float)Math.cos(theta), (float)Math.sin(theta),0,0);
 		vectors.add(bulletRec);
 		vectors.add(speedVector);
+		vectors.add(stats);
+		//System.out.println("size = "+ vectors.size);
 		bulletTrajectories.put(instanceId, vectors);
 		instanceId++;
 	}
@@ -66,12 +71,27 @@ public class BulletNature {
 			
 			newProperties.add(newRec.set(xCoord, yCoord, width, height));
 			newProperties.add(instance.getValue().get(1));
+			newProperties.add(instance.getValue().get(2));
 			instance.setValue(newProperties);
 		
 			if(instance.getValue().get(0).x < 0 || 
 					instance.getValue().get(0).y > 480 || 
 					instance.getValue().get(0).x > (800-width/2) || 
 					instance.getValue().get(0).y < (0-height/2)){
+				iterate.remove(); 
+			}
+		}
+		
+	}
+	
+	public void update(){
+		
+		iterate = bulletTrajectories.entrySet().iterator();
+		while (iterate.hasNext()){
+			instance = iterate.next();
+			//System.out.println("size = "+ instance.getValue().size);
+			health = (instance.getValue().get(2).x);
+			if(health <= 0){
 				iterate.remove(); 
 			}
 		}

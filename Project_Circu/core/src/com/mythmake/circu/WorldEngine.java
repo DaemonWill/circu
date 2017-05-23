@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mythmake.circu.dao.WorldOfCircu;
 import com.mythmake.circu.domain.Shapes;
@@ -69,6 +70,11 @@ public class WorldEngine {
 		playerRechargeTimer = TimeUtils.nanoTime();
 		hexaminionTimer = TimeUtils.nanoTime();
 		enemyNature.spawnHexaminion(world.idFetchType(hexTypeId), playerChar);
+		Array<Rectangle> characterCondition = new Array<Rectangle>();
+		Rectangle stats = new Rectangle();
+		stats.set(10,10,10,10); //health, bulk, power, speed
+		characterCondition.add(playerChar);
+		characterCondition.add(stats);
 	}
 	
 	public void revolution(){
@@ -96,8 +102,11 @@ public class WorldEngine {
 	    //union sort would be useful here - determining collisions
 	    for(Integer enemy : enemyNature.getEnemies().keySet()){
 	    	for(Integer bullet : bulletNature.getBulletTrajectories().keySet()){
-	    		collisionMech.hasInteraction(bulletNature.getBulletTrajectories().get(bullet), 
-	    				enemyNature.getEnemies().get(enemy));
+	    		if(collisionMech.hasInteraction(bulletNature.getBulletTrajectories().get(bullet), 
+	    				enemyNature.getEnemies().get(enemy))){
+	    			collisionMech.damage(bulletNature.getBulletTrajectories().get(bullet).get(2), 
+	    					enemyNature.getEnemies().get(enemy).get(1));
+	    		}
 	    	}
 	    }
 	    sprites.end();
@@ -124,6 +133,8 @@ public class WorldEngine {
 	    
 	    bulletNature.openFire();
 	    enemyNature.seekAndDestroy(playerChar);
+	    bulletNature.update();
+	    enemyNature.update();
 	    
 	    if(playerChar.x < 0) playerChar.x = 0;
 	    if(playerChar.x > 800 - playerChar.width) playerChar.x = 800 - playerChar.width;
