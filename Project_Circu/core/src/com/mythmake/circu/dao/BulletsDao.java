@@ -5,7 +5,7 @@ import java.util.List;
 import com.mythmake.circu.domain.Bullets;
 
 public interface BulletsDao {
-
+	
 	List<Bullets> getBullets();
 	
 	Bullets nameFetchBullet(String name);
