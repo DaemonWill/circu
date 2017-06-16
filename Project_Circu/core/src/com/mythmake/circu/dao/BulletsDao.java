@@ -4,6 +4,14 @@ import java.util.List;
 
 import com.mythmake.circu.domain.Bullets;
 
+/****
+ * 
+ * Functionality and explanation for below in WorldOfCircu class
+ * 
+ * @author Daimen Williams
+ *
+ */
+
 public interface BulletsDao {
 	
 	List<Bullets> getBullets();

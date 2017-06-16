@@ -4,6 +4,14 @@ import java.util.List;
 
 import com.mythmake.circu.domain.Shapes;
 
+/****
+ * 
+ * Functionality and explanation for below in WorldOfCircu class
+ * 
+ * @author Daimen Williams
+ *
+ */
+
 public interface ShapesDao {
 	
 	List<Shapes> getShapes();

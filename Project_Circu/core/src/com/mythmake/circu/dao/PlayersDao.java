@@ -2,6 +2,14 @@ package com.mythmake.circu.dao;
 
 import java.util.List;
 
+/****
+ * 
+ * Functionality and explanation for below in WorldOfCircu class
+ * 
+ * @author Daimen Williams
+ *
+ */
+
 import com.mythmake.circu.domain.Players;
 
 public interface PlayersDao {

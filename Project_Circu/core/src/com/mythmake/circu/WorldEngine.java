@@ -13,13 +13,19 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.mythmake.circu.dao.WorldOfCircu;
 import com.mythmake.circu.domain.Shapes;
 
+/****
+ * Methods for the main game loop
+ * 
+ * Main tasks covered are asset creation upon game start
+ * 			, event handling, 
+ * 				and asset deletion upon game exit
+ * 
+ * @author Daimen Williams
+ *
+ */
+
+
 public class WorldEngine {
-	
-	/*
-	 * 
-	 * Will have to sweep through and comment in the coming days.
-	 * 
-	 */
 	
 	Texture playerCharImg;
 	Texture playerBulletImg;
@@ -42,6 +48,14 @@ public class WorldEngine {
 	long hexaminionTimer;
 	int hexTypeId;
 	
+	
+	/**
+	 * Instantiating main DAO class, in-game physics and mechanics classes. 
+	 * Loading assets like images from in game path settings
+	 * Instantiating main characters and objects/ assigning initial values to their fields
+	 * Creating coordinate plane, window, and sprite batch for rendering
+	 * 
+	 */
 	public void genesis(){
 		
 		world = new WorldOfCircu();
@@ -78,6 +92,16 @@ public class WorldEngine {
 		characterCondition.add(stats);
 	}
 	
+	/**
+	 * --- In-game event handling ---
+	 * 
+	 * Track player decisions
+	 * 
+	 * set minion and bullet spawn/refresh times, establish when collisions are being made and
+	 * calculate damage 
+	 * 
+	 * Update visuals after events and outcomes are determined for the instance
+	 */
 	public void revolution(){
 		//every 2 seconds make an instance of hexaminion an appropriate distance from player
 		if(TimeUtils.nanoTime() - hexaminionTimer >= 2000000000){
@@ -85,17 +109,23 @@ public class WorldEngine {
 			hexaminionTimer = TimeUtils.nanoTime();
 		}
 		
+		//A list of all bullet and enemy instances are maintained. As an enemy or bullet is spawned
+		//or destroyed the list reflects the change. This also tracks health and individual stats
+		// and positions of course.
 		bulletNature.update();
 		enemyNature.update();
 		
+		//Generating background
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	    
 	    cam.update();
+	    
+	    //setting images to be mounted and tracked in visual environment
 	    sprites.setProjectionMatrix(cam.combined);
 	    sprites.begin();
-	    sprites.draw(playerCharImg, playerChar.x, playerChar.y);
 	    
+	    //assign images to be updated with their respective game object dimensions and positions
+	    sprites.draw(playerCharImg, playerChar.x, playerChar.y);
 	    for(Integer enemy : enemyNature.getEnemies().keySet()){
 	    	sprites.draw(hexaminionImg, enemyNature.getEnemies().get(enemy).get(0).x,
 	    			enemyNature.getEnemies().get(enemy).get(0).y);
@@ -105,7 +135,8 @@ public class WorldEngine {
 	    			bulletNature.getBulletTrajectories().get(key).get(0).y);
 	    }
 	    
-	    //union sort would be useful here - determining collisions
+	    //calling upon logic to determine if collisions happen with any in game object and
+	    //calculating resulting changes
 	    for(Integer enemy : enemyNature.getEnemies().keySet()){
 	    	for(Integer bullet : bulletNature.getBulletTrajectories().keySet()){
 	    		if(collisionMech.hasInteraction(bulletNature.getBulletTrajectories().get(bullet), 
@@ -121,17 +152,19 @@ public class WorldEngine {
 	    }
 	    sprites.end();
 	    
+	    //player movement event handling
 	    if(Gdx.input.isKeyPressed(Input.Keys.A)) playerChar.x -= 200 * Gdx.graphics.getDeltaTime();
 	    if(Gdx.input.isKeyPressed(Input.Keys.D)) playerChar.x += 200 * Gdx.graphics.getDeltaTime();
 	    if(Gdx.input.isKeyPressed(Input.Keys.W)) playerChar.y += 200 * Gdx.graphics.getDeltaTime();
 	    if(Gdx.input.isKeyPressed(Input.Keys.S)) playerChar.y -= 200 * Gdx.graphics.getDeltaTime();
 	    
+	    //stall the player from spamming bullets for ~2/5ths of a second? 
+	    //if player is allowed to shoot, logic is done to render bullet with trajectory vector
 	    if(playerRecharge == true){
 	    	if(TimeUtils.nanoTime() - playerRechargeTimer > 400000000){
 	    		playerRecharge = false;
 	    	}
 	    }
-	    
 	    if(Gdx.input.isTouched() && playerRecharge==false ) {
 	        Vector3 touchCoor = new Vector3();
 	        touchCoor.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -144,19 +177,25 @@ public class WorldEngine {
 	    bulletNature.openFire();
 	    enemyNature.seekAndDestroy(playerChar);
 	    
+	    //Set game coordinate bounds for the player
 	    if(playerChar.x < 0) playerChar.x = 0;
 	    if(playerChar.x > 800 - playerChar.width) playerChar.x = 800 - playerChar.width;
 	    if(playerChar.y < 0) playerChar.y = 0;
 	    if(playerChar.y > 480 - playerChar.height) playerChar.y = 480 - playerChar.height;
+	    
+	    //if player health reaches zero, remove player image from game to signify player is dead
 	    if(characterCondition.get(1).x <= 0){
 	    	playerCharImg.dispose();
 	    	Gdx.app.exit();
 	    }
-	   // System.out.println("player health = "+ characterCondition.get(1).x);
+	   
 	}
 	
+	
+	/**
+	 * When game terminates, all assets are removed from game
+	 */
 	public void end(){
-		
 		playerCharImg.dispose();
 		sprites.dispose();
 	}
