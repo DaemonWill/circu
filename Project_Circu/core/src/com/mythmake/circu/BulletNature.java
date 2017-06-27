@@ -11,6 +11,17 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Vector2;
 import com.mythmake.circu.domain.Bullets;
 
+/****
+ * Class contains encapsulated map of all bullet instances containing their position coordinates, 
+ * initial path vector, and stats (bullets can deal varying damage and have their own health stats) 
+ * 
+ * Methods regarding accessing this map and editing the overall current state
+ * of each bullet instance are included.
+ * 
+ * @author Daimen Williams
+ *
+ */
+
 public class BulletNature {
 	
 	private Map <Integer, Array<Rectangle>> bulletTrajectories = 
@@ -55,6 +66,10 @@ public class BulletNature {
 		instanceId++;
 	}
 	
+	/*
+	 * logic regarding how bullets travel (given their initial path vectors) and at what speed
+	 * If bullet exits a certain distance off screen it will be destroyed (removed from map)
+	 */
 	public void openFire(){
 		
 		iterate = bulletTrajectories.entrySet().iterator();
@@ -84,8 +99,11 @@ public class BulletNature {
 		
 	}
 	
+	/*
+	 * Persist new information for all entries in the map. If a bullet's health is updated
+	 * to be zero or below, the bullet is destroyed.
+	 */
 	public void update(){
-		
 		iterate = bulletTrajectories.entrySet().iterator();
 		while (iterate.hasNext()){
 			instance = iterate.next();

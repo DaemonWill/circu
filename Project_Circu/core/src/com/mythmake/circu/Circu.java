@@ -8,20 +8,16 @@ public class Circu extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		
 		worldEngine.genesis();
-		
 	}
 
 	@Override
 	public void render () {
-		
 		worldEngine.revolution();
 	}
 	
 	@Override
 	public void dispose () {
-		
 		worldEngine.end();
 	}
 }

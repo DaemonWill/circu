@@ -11,6 +11,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mythmake.circu.domain.Types;
 
+/****
+ * Class contains encapsulated map of all enemy instances containing their position coordinates, 
+ * stats and domain representations. 
+ * 
+ * Methods regarding accessing this map and editing the position, stats and overall current state
+ * of each enemy instance are included.
+ * 
+ * @author Daimen Williams
+ *
+ */
+
 public class EnemyNature {
 	
 	private Map<Integer,Array<Rectangle>> enemies = new HashMap<Integer, Array<Rectangle>>();
@@ -68,6 +79,10 @@ public class EnemyNature {
 		instanceId++;
 	}
 	
+	/*
+	 * logic for tracking down player character
+	 * enemies primarily do damage through body collisions 
+	 */
 	public void seekAndDestroy(Rectangle playerRec){
 		//System.out.println("enemies maintained = "+enemies.size());
 		iterate = enemies.entrySet().iterator();
@@ -101,8 +116,12 @@ public class EnemyNature {
 		
 	}
 	
+	/*
+	 * Persist new information for each entry in this class instance's map.
+	 * If the health stat for a particular enemy is zero (or less), the enemy is destroyed and it's
+	 * entry on the map is removed. 
+	 */
 	public void update(){
-		
 		iterate = enemies.entrySet().iterator();
 		while (iterate.hasNext()){
 			instance = iterate.next();
@@ -115,5 +134,4 @@ public class EnemyNature {
 		
 	}
 	
-
 }

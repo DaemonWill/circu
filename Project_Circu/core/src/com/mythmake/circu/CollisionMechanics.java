@@ -4,6 +4,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+/****
+ * 
+ * Class contains logic regarding when to tell objects collide with each other and how much damage to 
+ * remove from both party's health stats if applicable. (collision is mutual destruction)
+ * 
+ * @author Daimen Williams
+ *
+ */
+
 public class CollisionMechanics {
 	
 	float firstXRadius;
